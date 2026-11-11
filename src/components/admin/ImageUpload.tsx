@@ -73,12 +73,10 @@ export default function ImageUpload({
           position: 'relative',
           borderRadius: 10,
           border: `2px dashed ${dragging ? '#4f46e5' : value ? '#e2e8f0' : '#cbd5e1'}`,
-          background: dragging ? '#eef2ff' : value ? '#000' : '#f8fafc',
+          background: dragging ? '#eef2ff' : '#f8fafc',
           cursor: uploading ? 'default' : 'pointer',
           overflow: 'hidden',
-          minHeight: 100,
-          maxHeight: maxHeightPx,
-          aspectRatio,
+          height: maxHeightPx,
           transition: 'border-color 0.15s, background 0.15s',
           display: 'flex',
           alignItems: 'center',
@@ -91,7 +89,7 @@ export default function ImageUpload({
           <img
             src={value}
             alt="preview"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', position: 'absolute', inset: 0 }}
+            style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', position: 'absolute', inset: 0 }}
             onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
           />
         )}
