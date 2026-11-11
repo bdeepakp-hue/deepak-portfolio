@@ -12,6 +12,7 @@ import {
   Eye, Save, ArrowLeft, Image as ImageIcon,
   Type, AlignLeft, BarChart2, Columns, List, Quote, Grid
 } from 'lucide-react'
+import ImageUpload from './ImageUpload'
 
 // ─── Section type definitions ────────────────────────────────────────────────
 
@@ -282,14 +283,18 @@ function SectionEditor({ section, onChange }: { section: Section; onChange: (s: 
   if (section.type === 'image_full') {
     return (
       <>
-        <FieldRow label="Image URL">
-          <Input value={(section.url as string) ?? ''} onChange={e => upd('url', e.target.value)} placeholder="/images/my-image.webp or https://..." style={{ fontSize: 13 }} />
-        </FieldRow>
+        <ImageUpload
+          label="Image"
+          value={section.url ?? ''}
+          onChange={v => upd('url', v)}
+          aspectRatio="16/9"
+          maxHeightPx={240}
+        />
         <FieldRow label="Alt text">
-          <Input value={(section.alt as string) ?? ''} onChange={e => upd('alt', e.target.value)} style={{ fontSize: 13 }} />
+          <Input value={section.alt ?? ''} onChange={e => upd('alt', e.target.value)} style={{ fontSize: 13 }} />
         </FieldRow>
         <FieldRow label="Caption (optional)">
-          <Input value={(section.caption as string) ?? ''} onChange={e => upd('caption', e.target.value)} style={{ fontSize: 13 }} />
+          <Input value={section.caption ?? ''} onChange={e => upd('caption', e.target.value)} style={{ fontSize: 13 }} />
         </FieldRow>
       </>
     )
@@ -298,16 +303,18 @@ function SectionEditor({ section, onChange }: { section: Section; onChange: (s: 
   if (section.type === 'image_two_col') {
     const images = (section.images as { url: string; alt: string; caption?: string }[]) ?? [{ url: '', alt: '' }, { url: '', alt: '' }]
     return (
-      <>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
         {images.map((img, i) => (
-          <div key={i} style={{ padding: 12, background: '#f8fafc', borderRadius: 8, border: '1px solid #e2e8f0', marginBottom: 10 }}>
-            <p style={{ fontSize: 11, fontWeight: 600, color: '#64748b', margin: '0 0 8px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Image {i + 1}</p>
-            <FieldRow label="URL"><Input value={img.url} onChange={e => { const a = [...images]; a[i] = { ...a[i], url: e.target.value }; upd('images', a) }} placeholder="/images/..." style={{ fontSize: 13 }} /></FieldRow>
-            <FieldRow label="Alt text"><Input value={img.alt} onChange={e => { const a = [...images]; a[i] = { ...a[i], alt: e.target.value }; upd('images', a) }} style={{ fontSize: 13 }} /></FieldRow>
-            <FieldRow label="Caption"><Input value={img.caption ?? ''} onChange={e => { const a = [...images]; a[i] = { ...a[i], caption: e.target.value }; upd('images', a) }} style={{ fontSize: 13 }} /></FieldRow>
+          <div key={i} style={{ padding: 12, background: '#f8fafc', borderRadius: 8, border: '1px solid #e2e8f0' }}>
+            <p style={{ fontSize: 11, fontWeight: 600, color: '#64748b', margin: '0 0 10px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Image {i + 1}</p>
+            <ImageUpload value={img.url} onChange={v => { const a = [...images]; a[i] = { ...a[i], url: v }; upd('images', a) }} aspectRatio="4/3" maxHeightPx={160} />
+            <div style={{ marginTop: 8 }}>
+              <FieldRow label="Alt text"><Input value={img.alt} onChange={e => { const a = [...images]; a[i] = { ...a[i], alt: e.target.value }; upd('images', a) }} style={{ fontSize: 13 }} /></FieldRow>
+              <FieldRow label="Caption"><Input value={img.caption ?? ''} onChange={e => { const a = [...images]; a[i] = { ...a[i], caption: e.target.value }; upd('images', a) }} style={{ fontSize: 13 }} /></FieldRow>
+            </div>
           </div>
         ))}
-      </>
+      </div>
     )
   }
 
@@ -357,23 +364,30 @@ function SectionEditor({ section, onChange }: { section: Section; onChange: (s: 
 
   if (section.type === 'image_grid') {
     const images = (section.images as { url: string; alt: string }[]) ?? []
+    const cols = (section.columns as number) ?? 3
     return (
       <>
-        <FieldRow label="Columns">
-          <Input type="number" min={2} max={4} value={(section.columns as number) ?? 3} onChange={e => upd('columns', parseInt(e.target.value))} style={{ fontSize: 13, width: 80 }} />
+        <FieldRow label="Columns (2–4)">
+          <div style={{ display: 'flex', gap: 6 }}>
+            {[2, 3, 4].map(n => (
+              <button key={n} type="button" onClick={() => upd('columns', n)} style={{ width: 36, height: 32, borderRadius: 7, border: `1px solid ${cols === n ? '#4f46e5' : '#e2e8f0'}`, background: cols === n ? '#eef2ff' : '#fff', color: cols === n ? '#4f46e5' : '#64748b', fontWeight: 600, fontSize: 13, cursor: 'pointer' }}>{n}</button>
+            ))}
+          </div>
         </FieldRow>
         <FieldRow label="Images">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(cols, 3)}, 1fr)`, gap: 10 }}>
             {images.map((img, i) => (
-              <div key={i} style={{ display: 'flex', gap: 6 }}>
-                <Input placeholder="URL" value={img.url} onChange={e => { const a = [...images]; a[i] = { ...a[i], url: e.target.value }; upd('images', a) }} style={{ fontSize: 13, flex: 2 }} />
-                <Input placeholder="Alt text" value={img.alt} onChange={e => { const a = [...images]; a[i] = { ...a[i], alt: e.target.value }; upd('images', a) }} style={{ fontSize: 13, flex: 1 }} />
-                <Button variant="ghost" size="sm" onClick={() => upd('images', images.filter((_, j) => j !== i))} style={{ padding: '0 8px', color: '#ef4444' }}><Trash2 size={13} /></Button>
+              <div key={i} style={{ padding: 10, background: '#f8fafc', borderRadius: 8, border: '1px solid #e2e8f0' }}>
+                <ImageUpload value={img.url} onChange={v => { const a = [...images]; a[i] = { ...a[i], url: v }; upd('images', a) }} aspectRatio="4/3" maxHeightPx={120} />
+                <div style={{ marginTop: 6, display: 'flex', gap: 4 }}>
+                  <Input placeholder="Alt" value={img.alt} onChange={e => { const a = [...images]; a[i] = { ...a[i], alt: e.target.value }; upd('images', a) }} style={{ fontSize: 12 }} />
+                  <Button variant="ghost" size="sm" onClick={() => upd('images', images.filter((_, j) => j !== i))} style={{ padding: '0 6px', color: '#ef4444', flexShrink: 0 }}><Trash2 size={12} /></Button>
+                </div>
               </div>
             ))}
-            <Button variant="outline" size="sm" onClick={() => upd('images', [...images, { url: '', alt: '' }])} style={{ alignSelf: 'flex-start', fontSize: 12, gap: 4 }}>
-              <Plus size={12} /> Add image
-            </Button>
+            <button type="button" onClick={() => upd('images', [...images, { url: '', alt: '' }])} style={{ minHeight: 80, borderRadius: 8, border: '2px dashed #cbd5e1', background: '#f8fafc', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, fontSize: 12, color: '#94a3b8' }}>
+              <Plus size={14} /> Add
+            </button>
           </div>
         </FieldRow>
       </>
@@ -427,23 +441,18 @@ export default function CaseStudyEditor({ project, caseStudy }: { project: Proje
 
       {/* Thumb URL */}
       <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 12, padding: 20, marginBottom: 16 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
           <ImageIcon size={15} color="#4f46e5" />
           <span style={{ fontSize: 13, fontWeight: 600, color: '#0f172a' }}>Thumbnail Image</span>
-          <Badge variant="secondary" style={{ fontSize: 10 }}>shown on home page cards</Badge>
+          <Badge variant="secondary" style={{ fontSize: 10 }}>shown on home page project cards</Badge>
         </div>
-        <Input
+        <ImageUpload
           value={thumbUrl}
-          onChange={e => setThumbUrl(e.target.value)}
-          placeholder="/images/project-thumb.webp  or  https://..."
-          style={{ fontSize: 13 }}
+          onChange={setThumbUrl}
+          aspectRatio="16/9"
+          maxHeightPx={200}
+          hint="Recommended: 800×500px WebP"
         />
-        {thumbUrl && (
-          <div style={{ marginTop: 12, borderRadius: 8, overflow: 'hidden', border: '1px solid #e2e8f0', maxHeight: 180, position: 'relative' }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={thumbUrl} alt="thumbnail preview" style={{ width: '100%', height: 180, objectFit: 'cover', display: 'block' }} onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
-          </div>
-        )}
       </div>
 
       {/* Sections */}

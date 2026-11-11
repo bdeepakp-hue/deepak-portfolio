@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
+import ImageUpload from './ImageUpload'
 
 interface Project {
   id: number
@@ -52,8 +53,14 @@ export default function ProjectEditForm({ project }: { project: Project }) {
           <Textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} rows={3} style={{ marginTop: 6 }} />
         </div>
         <div>
-          <Label>Thumbnail URL</Label>
-          <Input value={form.thumb_url} onChange={e => setForm({ ...form, thumb_url: e.target.value })} style={{ marginTop: 6 }} />
+          <Label style={{ display: 'block', marginBottom: 8 }}>Thumbnail Image</Label>
+          <ImageUpload
+            value={form.thumb_url}
+            onChange={v => setForm({ ...form, thumb_url: v })}
+            aspectRatio="16/9"
+            maxHeightPx={200}
+            hint="Recommended: 800×500px WebP"
+          />
         </div>
         <div>
           <Label>Category</Label>
