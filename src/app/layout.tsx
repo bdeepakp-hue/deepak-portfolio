@@ -10,7 +10,7 @@ const manrope = Manrope({
 
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ['latin'],
-  variable: '--font-mono',
+  variable: '--font-ibm',
   weight: ['400', '500'],
 })
 
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${manrope.variable} ${ibmPlexMono.variable} ${plusJakartaSans.variable}`}>
+      <body className={`${manrope.variable} ${ibmPlexMono.variable} ${plusJakartaSans.variable}`} style={{ fontFamily: 'var(--font-sans)' }}>
         {children}
       </body>
     </html>

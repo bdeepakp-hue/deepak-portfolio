@@ -3,8 +3,8 @@ import { prisma } from '@/lib/db'
 import SiteNav from '@/components/portfolio/SiteNav'
 import SiteFooter from '@/components/portfolio/SiteFooter'
 import Link from 'next/link'
-import Image from 'next/image'
 import CopyEmailButton from '@/components/portfolio/CopyEmailButton'
+import ProjectCard from '@/components/portfolio/ProjectCard'
 
 export default async function HomePage() {
   const [profile, heroTags, projects, processSteps, toolGroups] = await Promise.all([
@@ -22,28 +22,28 @@ export default async function HomePage() {
       <SiteNav />
       <main>
         {/* Hero */}
-        <section style={{ minHeight: '90vh', display: 'flex', alignItems: 'center', padding: '80px 24px 60px' }}>
-          <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%' }}>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--text-muted)', marginBottom: 24, letterSpacing: '0.05em' }}>
+        <section style={{ minHeight: '90vh', display: 'flex', alignItems: 'center', padding: '150px 24px 88px', background: '#f8f9fa' }}>
+          <div style={{ maxWidth: 760, margin: '0 auto', width: '100%', textAlign: 'center' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--accent)', marginBottom: 24, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
               {profile.hero_eyebrow}
             </p>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 6vw, 5rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.02em', maxWidth: 900, marginBottom: 24 }}>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 6.4vw, 4.25rem)', fontWeight: 800, lineHeight: 1.08, letterSpacing: '-0.03em', maxWidth: 900, marginBottom: 24, color: 'var(--text)' }}>
               {profile.hero_title.split('product decisions people trust.')[0]}
-              <span style={{ background: 'linear-gradient(135deg, var(--accent) 0%, #80ff44 50%, #00e5ff 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              <span style={{ background: 'linear-gradient(90deg, var(--accent) 0%, var(--accent2) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                 product decisions people trust.
               </span>
             </h1>
             <p style={{ fontSize: 18, color: 'var(--text-muted)', maxWidth: 680, lineHeight: 1.7, marginBottom: 32 }}>
               {profile.hero_lede}
             </p>
-            <ul style={{ display: 'flex', flexWrap: 'wrap', gap: 10, listStyle: 'none', padding: 0, margin: '0 0 48px' }}>
+            <ul style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 14, listStyle: 'none', padding: 0, margin: '36px 0 0' }}>
               {heroTags.map(tag => (
-                <li key={tag.id} style={{ padding: '6px 14px', border: '1px solid var(--border)', borderRadius: 100, fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                <li key={tag.id} style={{ padding: '8px 16px', borderRadius: 999, fontSize: 14, fontWeight: 600, color: 'var(--accent)', background: 'var(--accent-bg)' }}>
                   {tag.label}
                 </li>
               ))}
             </ul>
-            <a href="#work" style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 8, textDecoration: 'none', color: 'var(--text-muted)' }} aria-label="Scroll to case studies">
+            <a href="#work" style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 10, textDecoration: 'none', color: 'var(--text-muted)', marginTop: 44 }} aria-label="Scroll to case studies">
               <span style={{ width: 28, height: 44, border: '2px solid var(--border)', borderRadius: 14, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: '6px 0' }}>
                 <span style={{ width: 4, height: 8, background: 'var(--text-muted)', borderRadius: 2, animation: 'scrollDot 1.5s ease-in-out infinite' }} />
               </span>
@@ -58,23 +58,14 @@ export default async function HomePage() {
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text-dim)', marginBottom: 48, letterSpacing: '0.1em' }}>01 / Work</p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 20 }}>
               {projects.map(project => (
-                <Link key={project.id} href={`/projects/${project.slug}`} style={{ textDecoration: 'none' }}>
-                  <div style={{
-                    background: 'var(--card-bg)', border: '1px solid var(--border)',
-                    borderRadius: 16, overflow: 'hidden', padding: 24,
-                    transition: 'border-color 0.2s, transform 0.2s',
-                    cursor: 'pointer',
-                  }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--text-dim)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)' }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)' }}
-                  >
-                    <div style={{ position: 'relative', width: '100%', paddingBottom: '62%', marginBottom: 20, borderRadius: 8, overflow: 'hidden', background: 'var(--bg3)' }}>
-                      <Image src={project.thumb_url} alt={project.title} fill style={{ objectFit: 'cover' }} />
-                    </div>
-                    <h3 style={{ fontSize: 17, fontWeight: 600, color: 'var(--text)', marginBottom: 8, fontFamily: 'var(--font-sans)' }}>{project.title}</h3>
-                    <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.5 }}>{project.description}</p>
-                  </div>
-                </Link>
+                <ProjectCard
+                  key={project.id}
+                  id={project.id}
+                  slug={project.slug}
+                  title={project.title}
+                  description={project.description}
+                  thumb_url={project.thumb_url}
+                />
               ))}
             </div>
           </div>
@@ -88,15 +79,15 @@ export default async function HomePage() {
               <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontFamily: 'var(--font-display)', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: 12 }}>How I work</h2>
               <p style={{ color: 'var(--text-muted)', fontSize: 16 }}>The same four moves on every project, scaled to the size of the problem.</p>
             </div>
-            <ol style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 2, listStyle: 'none', padding: 0, counterReset: 'process' }}>
+            <ol style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 28, listStyle: 'none', padding: 0 }}>
               {processSteps.map(step => (
-                <li key={step.id} style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 12, padding: '28px 24px', display: 'flex', flexDirection: 'column', gap: 12 }}>
-                  <span style={{ display: 'inline-block', padding: '3px 10px', border: '1px solid var(--border)', borderRadius: 100, fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                <li key={step.id} style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 28, padding: 32, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', boxShadow: '0 1px 3px rgba(20,22,40,0.06)' }}>
+                  <span style={{ display: 'inline-block', padding: '8px 15px', fontFamily: 'var(--font-mono)', fontSize: 15, color: 'var(--accent)', background: 'var(--accent-bg)', borderRadius: 999 }}>
                     {step.phase}
                   </span>
-                  <h3 style={{ fontSize: 16, fontWeight: 600 }}>{step.title}</h3>
-                  <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.6, flexGrow: 1 }}>{step.description}</p>
-                  <span style={{ display: 'inline-block', padding: '3px 10px', background: 'var(--bg3)', borderRadius: 100, fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-dim)', alignSelf: 'flex-start' }}>
+                  <h3 style={{ fontSize: 26, fontWeight: 800, fontFamily: 'var(--font-display)', letterSpacing: '-0.02em', marginTop: 26, lineHeight: 1.5, color: 'var(--text)' }}>{step.title}</h3>
+                  <p style={{ fontSize: 18, color: 'var(--text-muted)', lineHeight: 1.78, margin: '12px 0 16px', flexGrow: 1 }}>{step.description}</p>
+                  <span style={{ display: 'inline-block', padding: '8px 15px', fontFamily: 'var(--font-mono)', fontSize: 15, color: 'var(--accent)', background: 'var(--accent-bg)', borderRadius: 999, marginTop: 'auto' }}>
                     {step.output_tag}
                   </span>
                 </li>
@@ -110,22 +101,22 @@ export default async function HomePage() {
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text-dim)', marginBottom: 16, letterSpacing: '0.1em' }}>03 / About</p>
             <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontFamily: 'var(--font-display)', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: 32 }}>About me</h2>
-            <div style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 16, padding: '32px', display: 'flex', gap: 32, flexWrap: 'wrap' }}>
-              <div style={{ width: 72, height: 72, background: 'var(--bg3)', borderRadius: 50, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', flexShrink: 0 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '218px minmax(0,1fr)', gap: '48px 114px', padding: '58px 58px 52px', background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 32, boxShadow: '0 1px 3px rgba(20,22,40,0.06)' }}>
+              <div style={{ width: 218, height: 218, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontSize: 52, fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--accent)', background: 'linear-gradient(135deg, var(--accent-bg), rgb(240,238,253))', border: '1px solid rgb(226,228,240)', boxShadow: '0 6px 16px rgba(67,85,232,0.1)', flexShrink: 0 }}>
                 DB
               </div>
-              <div style={{ flex: 1, minWidth: 280 }}>
+              <div>
                 {profile.bio.split('\n\n').map((para, i) => (
-                  <p key={i} style={{ fontSize: 15, color: 'var(--text-muted)', lineHeight: 1.75, marginBottom: 16 }}>{para}</p>
+                  <p key={i} style={{ fontSize: 22, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 22 }}>{para}</p>
                 ))}
-                <h3 style={{ fontSize: 14, fontWeight: 600, marginTop: 24, marginBottom: 16 }}>Tools & Technologies</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 800, letterSpacing: '-0.01em', color: 'var(--text)', margin: '40px 0 0' }}>Tools &amp; Technologies</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 30, marginTop: 16 }}>
                   {toolGroups.map(group => (
                     <div key={group.id}>
-                      <h4 style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--text-dim)', marginBottom: 8, letterSpacing: '0.08em' }}>{group.name}</h4>
-                      <ul style={{ display: 'flex', flexWrap: 'wrap', gap: 8, listStyle: 'none', padding: 0 }}>
+                      <h4 style={{ fontFamily: 'var(--font-mono)', fontSize: 15, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 12 }}>{group.name}</h4>
+                      <ul style={{ display: 'flex', flexWrap: 'wrap', gap: 12, listStyle: 'none', padding: 0 }}>
                         {group.tools.map(tool => (
-                          <li key={tool.id} style={{ padding: '4px 12px', background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 100, fontSize: 12, color: 'var(--text-muted)' }}>
+                          <li key={tool.id} style={{ padding: '9px 17px', fontFamily: 'var(--font-mono)', fontSize: 16, color: 'var(--text)', background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 999 }}>
                             {tool.name}
                           </li>
                         ))}
@@ -146,23 +137,23 @@ export default async function HomePage() {
               <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontFamily: 'var(--font-display)', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: 12 }}>Let&rsquo;s talk</h2>
               <p style={{ color: 'var(--text-muted)', fontSize: 16 }}>Open to product design and UX research roles. Reach out directly, or find me on LinkedIn.</p>
             </div>
-            <div style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 16, padding: 32, display: 'flex', flexWrap: 'wrap', gap: 32 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '40px 72px', padding: '62px 60px 56px', background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 36, boxShadow: '0 1px 3px rgba(20,22,40,0.06)' }}>
               <div>
-                <h3 style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-dim)', marginBottom: 10, letterSpacing: '0.1em' }}>Email</h3>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <a href={`mailto:${profile.email}`} style={{ fontSize: 16, color: 'var(--text)', textDecoration: 'none', fontFamily: 'var(--font-mono)' }}>{profile.email}</a>
+                <h3 style={{ fontFamily: 'var(--font-mono)', fontSize: 15, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 14 }}>Email</h3>
+                <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+                  <a href={`mailto:${profile.email}`} style={{ fontFamily: 'var(--font-mono)', fontSize: 24, lineHeight: 1.3, color: 'var(--text)', textDecoration: 'none' }}>{profile.email}</a>
                   <CopyEmailButton email={profile.email} />
                 </div>
               </div>
               <div>
-                <h3 style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-dim)', marginBottom: 10, letterSpacing: '0.1em' }}>LinkedIn</h3>
-                <a href={profile.linkedin_url} target="_blank" rel="noopener" style={{ color: 'var(--text-muted)', fontSize: 14, textDecoration: 'none' }}>
+                <h3 style={{ fontFamily: 'var(--font-mono)', fontSize: 15, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 14 }}>LinkedIn</h3>
+                <a href={profile.linkedin_url} target="_blank" rel="noopener" style={{ display: 'inline-block', paddingBottom: 2, fontSize: 24, color: 'var(--text)', borderBottom: '2px solid var(--border)', textDecoration: 'none' }}>
                   linkedin.com/in/deepakbadgujar
                 </a>
               </div>
               <div>
-                <h3 style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-dim)', marginBottom: 10, letterSpacing: '0.1em' }}>Portfolio deck</h3>
-                <Link href="/resume" style={{ color: 'var(--text-muted)', fontSize: 14, textDecoration: 'none' }}>
+                <h3 style={{ fontFamily: 'var(--font-mono)', fontSize: 15, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 14 }}>Portfolio deck</h3>
+                <Link href="/resume" style={{ display: 'inline-block', paddingBottom: 2, fontSize: 24, color: 'var(--text)', borderBottom: '2px solid var(--border)', textDecoration: 'none' }}>
                   View résumé
                 </Link>
               </div>

@@ -1,20 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #0a0a0a;
-  --bg2: #111111;
-  --bg3: #1a1a1a;
-  --border: #2a2a2a;
-  --text: #e8e8e8;
-  --text-muted: #888888;
-  --text-dim: #555555;
-  --accent: #c8ff00;
-  --accent2: #a8e800;
-  --white: #ffffff;
-  --card-bg: #141414;
+  /* Light theme — matches original Portfolio-Make design */
+  --bg:       #f8f9fa;
+  --bg2:      #ffffff;
+  --bg3:      #ecedF3;
+  --border:   rgb(226, 228, 236);
+  --text:     rgb(17, 18, 26);
+  --text-muted: rgb(98, 102, 114);
+  --text-dim:   rgb(148, 151, 164);
+  --accent:   rgb(67, 85, 232);
+  --accent2:  rgb(124, 92, 236);
+  --accent-bg: rgb(232, 234, 252);
+  --card-bg:  #ffffff;
   --font-sans: var(--font-manrope), system-ui, sans-serif;
-  --font-mono: var(--font-mono-var, 'IBM Plex Mono'), monospace;
-  --font-display: var(--font-jakarta), system-ui, sans-serif;
+  --font-mono: var(--font-ibm), 'IBM Plex Mono', ui-monospace, monospace;
+  --font-display: var(--font-jakarta), 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
 * {
@@ -41,13 +42,13 @@ body {
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
-/* Admin light theme override */
+/* Admin override — neutral grey shell */
 .admin-theme {
-  --bg: #f8f9fa;
-  --bg2: #ffffff;
-  --bg3: #f1f3f5;
-  --border: #dee2e6;
-  --text: #212529;
+  --bg:       #f1f3f5;
+  --bg2:      #ffffff;
+  --bg3:      #e9ecef;
+  --border:   #dee2e6;
+  --text:     #212529;
   --text-muted: #6c757d;
-  --card-bg: #ffffff;
+  --card-bg:  #ffffff;
 }

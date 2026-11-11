@@ -8,18 +8,19 @@ export default function SiteNav() {
 
   return (
     <header style={{
-      position: 'sticky', top: 0, zIndex: 100,
-      background: 'rgba(10,10,10,0.92)',
-      backdropFilter: 'blur(12px)',
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1030,
+      background: '#fff',
       borderBottom: '1px solid var(--border)',
+      fontFamily: 'var(--font-sans)',
     }}>
       <nav style={{
-        maxWidth: 1200, margin: '0 auto',
+        maxWidth: 1320, margin: '0 auto',
         padding: '0 24px',
-        height: 64,
+        height: 56,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        gap: 16,
       }} aria-label="Primary">
-        <Link href="/" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 18, color: 'var(--text)', textDecoration: 'none', letterSpacing: '-0.01em' }}>
+        <Link href="/" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 18, letterSpacing: '-0.01em', color: 'rgb(17,18,26)', textDecoration: 'none', whiteSpace: 'nowrap' }}>
           Deepak Badgujar
         </Link>
 
@@ -34,7 +35,7 @@ export default function SiteNav() {
           <span style={{ display: 'block', width: 22, height: 2, background: 'var(--text)', borderRadius: 2 }} />
         </button>
 
-        <ul style={{ display: 'flex', alignItems: 'center', gap: 32, listStyle: 'none', margin: 0, padding: 0 }}>
+        <ul style={{ display: 'flex', alignItems: 'center', gap: 28, listStyle: 'none', margin: 0, padding: 0 }}>
           {[
             { href: '/#work', label: 'Work' },
             { href: '/#process', label: 'Process' },
@@ -43,28 +44,24 @@ export default function SiteNav() {
             { href: '/resume', label: 'Resume' },
           ].map(link => (
             <li key={link.href}>
-              <Link href={link.href} style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: 14, fontWeight: 500, transition: 'color 0.2s' }}
-                onMouseEnter={e => (e.currentTarget.style.color = 'var(--text)')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
+              <Link href={link.href} style={{ color: 'rgb(62,66,80)', textDecoration: 'none', fontSize: 15, fontWeight: 600, lineHeight: 1, whiteSpace: 'nowrap', transition: 'color 0.2s', display: 'flex', alignItems: 'center' }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'rgb(67,85,232)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'rgb(62,66,80)')}
               >
                 {link.label}
               </Link>
             </li>
           ))}
-          <li style={{ width: 1, height: 20, background: 'var(--border)' }} aria-hidden />
+          <li style={{ width: 1, height: 18, background: 'rgb(210,214,224)' }} aria-hidden />
           <li>
             <a href="https://www.linkedin.com/in/deepakbadgujar/" target="_blank" rel="noopener" aria-label="LinkedIn"
-              style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: 13, fontWeight: 500 }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'var(--text)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
-            >in</a>
+              style={{ display: 'block', width: 20, height: 20, backgroundColor: '#0a66c2', WebkitMaskImage: 'url(/nav-linkedin.svg)', WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskImage: 'url(/nav-linkedin.svg)', maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' }}
+            />
           </li>
           <li>
             <a href="https://www.behance.net/deepakbadgujar" target="_blank" rel="noopener" aria-label="Behance"
-              style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: 13, fontWeight: 500 }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'var(--text)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
-            >Bē</a>
+              style={{ display: 'block', width: 20, height: 20, backgroundColor: '#1769ff', WebkitMaskImage: 'url(/nav-behance.svg)', WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskImage: 'url(/nav-behance.svg)', maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' }}
+            />
           </li>
         </ul>
       </nav>
