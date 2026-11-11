@@ -32,7 +32,7 @@ export default function ProjectCard({ id, slug, title, description, thumb_url }:
         }}
       >
         <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', marginBottom: 20, borderRadius: 8, overflow: 'hidden', background: 'var(--bg3)' }}>
-          <Image src={thumb_url} alt={title} fill style={{ objectFit: 'cover' }} />
+          <Image src={thumb_url} alt={title} fill style={{ objectFit: 'contain' }} />
         </div>
         <h3 style={{ fontSize: 17, fontWeight: 600, color: 'var(--text)', marginBottom: 8, fontFamily: 'var(--font-sans)' }}>{title}</h3>
         <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.5 }}>{description}</p>
