@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { put } from '@vercel/blob'
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions)
@@ -16,15 +15,29 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Only images allowed' }, { status: 400 })
   }
 
-  // 10 MB limit
   if (file.size > 10 * 1024 * 1024) {
     return NextResponse.json({ error: 'File too large (max 10 MB)' }, { status: 400 })
   }
 
   const ext = file.name.split('.').pop() ?? 'webp'
-  const filename = `portfolio/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+  const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
 
-  const blob = await put(filename, file, { access: 'public' })
+  // Use Vercel Blob in production (when token is available), local filesystem in dev
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    const { put } = await import('@vercel/blob')
+    const blob = await put(`portfolio/${filename}`, file, { access: 'public' })
+    return NextResponse.json({ url: blob.url })
+  }
 
-  return NextResponse.json({ url: blob.url })
+  // Local fallback: save to /public/uploads/
+  const { writeFile, mkdir } = await import('fs/promises')
+  const { join } = await import('path')
+
+  const uploadsDir = join(process.cwd(), 'public', 'uploads')
+  await mkdir(uploadsDir, { recursive: true })
+
+  const bytes = await file.arrayBuffer()
+  await writeFile(join(uploadsDir, filename), Buffer.from(bytes))
+
+  return NextResponse.json({ url: `/uploads/${filename}` })
 }
