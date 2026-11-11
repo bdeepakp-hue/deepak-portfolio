@@ -8,14 +8,19 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { id } = await params
-  const { sections } = await req.json()
+  const { sections, thumb_url } = await req.json()
   const projectId = parseInt(id)
+
+  const data = {
+    sections,
+    ...(thumb_url !== undefined && { thumb_url }),
+  }
 
   const existing = await prisma.caseStudy.findUnique({ where: { project_id: projectId } })
   if (existing) {
-    await prisma.caseStudy.update({ where: { project_id: projectId }, data: { sections } })
+    await prisma.caseStudy.update({ where: { project_id: projectId }, data })
   } else {
-    await prisma.caseStudy.create({ data: { project_id: projectId, sections } })
+    await prisma.caseStudy.create({ data: { project_id: projectId, ...data } })
   }
 
   return NextResponse.json({ success: true })

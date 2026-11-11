@@ -99,6 +99,7 @@ model CaseStudy {
   id         Int     @id @default(autoincrement())
   project    Project @relation(fields: [project_id], references: [id], onDelete: Cascade)
   project_id Int     @unique
+  thumb_url  String  @default("")
   sections   Json
 }
 
