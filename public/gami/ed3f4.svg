@@ -1,0 +1,19 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="338.173" height="343.053" viewBox="0 0 338.173 343.053" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group" filter="url(#filter0_f_0_1796)">
+<path id="Vector" d="M169.086 303.31C240.52 303.31 298.429 244.308 298.429 171.527C298.429 98.7452 240.52 39.744 169.086 39.744C97.6525 39.744 39.744 98.7452 39.744 171.527C39.744 244.308 97.6525 303.31 169.086 303.31Z" fill="url(#paint0_linear_0_1796)"/>
+</g>
+<defs>
+<filter id="filter0_f_0_1796" x="0" y="0" width="338.173" height="343.054" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="19.872" result="effect1_foregroundBlur_0_1796"/>
+</filter>
+<linearGradient id="paint0_linear_0_1796" x1="88.7274" y1="89.978" x2="240.481" y2="89.978" gradientUnits="userSpaceOnUse">
+<stop stop-color="#4940DB" style="stop-color:#4940DB;stop-color:color(display-p3 0.2863 0.2510 0.8588);stop-opacity:1;"/>
+<stop offset="0.25" stop-color="#2EA186" style="stop-color:#2EA186;stop-color:color(display-p3 0.1804 0.6314 0.5255);stop-opacity:1;"/>
+<stop offset="0.5" stop-color="#FF83B1" style="stop-color:#FF83B1;stop-color:color(display-p3 1.0000 0.5137 0.6941);stop-opacity:1;"/>
+<stop offset="0.75" stop-color="#AE2D5D" style="stop-color:#AE2D5D;stop-color:color(display-p3 0.6824 0.1765 0.3647);stop-opacity:1;"/>
+<stop offset="1" stop-color="#ED5801" style="stop-color:#ED5801;stop-color:color(display-p3 0.9294 0.3451 0.0039);stop-opacity:1;"/>
+</linearGradient>
+</defs>
+</svg>

@@ -1,0 +1,14 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="devicon:figma" clip-path="url(#clip0_0_1423)">
+<path id="Vector" d="M8.53175 24.1902C10.763 24.1902 12.563 22.3902 12.563 20.1589V16.1277H8.53175C6.3005 16.1277 4.5005 17.9277 4.5005 20.1589C4.5005 22.3902 6.3005 24.1902 8.53175 24.1902Z" fill="#0ACF83" style="fill:#0ACF83;fill:color(display-p3 0.0392 0.8118 0.5137);fill-opacity:1;"/>
+<path id="Vector_2" d="M4.5005 12.0931C4.5005 9.86183 6.3005 8.06183 8.53175 8.06183H12.563V16.1243H8.53175C6.3005 16.1243 4.5005 14.3243 4.5005 12.0931Z" fill="#A259FF" style="fill:#A259FF;fill:color(display-p3 0.6353 0.3490 1.0000);fill-opacity:1;"/>
+<path id="Vector_3" d="M4.49984 4.03114C4.49984 1.79989 6.29984 -0.000113982 8.53109 -0.000113982H12.5623V8.06239H8.53109C6.29984 8.06239 4.49984 6.26239 4.49984 4.03114Z" fill="#F24E1E" style="fill:#F24E1E;fill:color(display-p3 0.9490 0.3059 0.1176);fill-opacity:1;"/>
+<path id="Vector_4" d="M12.5625 -0.000113982H16.5937C18.825 -0.000113982 20.625 1.79989 20.625 4.03114C20.625 6.26239 18.825 8.06239 16.5937 8.06239H12.5625V-0.000113982Z" fill="#FF7262" style="fill:#FF7262;fill:color(display-p3 1.0000 0.4471 0.3843);fill-opacity:1;"/>
+<path id="Vector_5" d="M20.6251 12.0931C20.6251 14.3243 18.8251 16.1243 16.5939 16.1243C14.3626 16.1243 12.5626 14.3243 12.5626 12.0931C12.5626 9.86183 14.3626 8.06183 16.5939 8.06183C18.8251 8.06183 20.6251 9.86183 20.6251 12.0931Z" fill="#1ABCFE" style="fill:#1ABCFE;fill:color(display-p3 0.1020 0.7373 0.9961);fill-opacity:1;"/>
+</g>
+<defs>
+<clipPath id="clip0_0_1423">
+<rect width="24" height="24" fill="white" style="fill:white;fill-opacity:1;"/>
+</clipPath>
+</defs>
+</svg>

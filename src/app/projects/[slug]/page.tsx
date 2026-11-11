@@ -20,24 +20,49 @@ type Section = {
   prose?: string[]
   card?: { title: string; duration?: string; responsibility?: string; tools?: string[] }
   lead?: string
+  lead2?: string
   objectives?: string[]
   goals?: { value: string; label: string }[]
   steps?: { n: string; title: string; desc: string }[]
   takeaways?: string[]
   roadmap?: string[]
-  // image types
   url?: string
   alt?: string
   caption?: string
   images?: { url: string; alt: string; caption?: string }[]
   columns?: number
-  // stats
   stats?: { value: string; label: string }[]
-  // quote
   text?: string
   author?: string
+  // research
+  groups?: { title: string; items: { value: string; label: string }[] }[]
+  // ia / chips
+  chips?: string[]
+  bullets?: string[]
+  // design system colors
+  swatches?: { color: string; label: string }[]
+  // competitive analysis
+  features?: string[]
+  competitors?: string[]
+  matrix?: string[][]
+  cards?: { title: string; strengths?: string[]; weaknesses?: string[] }[]
+  // personas
+  personas?: {
+    n: string
+    name: string
+    meta: string
+    bio: string
+    sections: { title: string; items: string[] }[]
+  }[]
+  // empathy maps
+  maps?: {
+    name: string
+    lead?: string
+    says?: string[]; thinks?: string[]; feels?: string[]; does?: string[]
+    pain_points?: string[]
+    opportunities?: string[]
+  }[]
 }
-
 
 const Eyebrow = ({ text }: { text?: string }) => text ? (
   <p style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text-dim)', marginBottom: 16, letterSpacing: '0.08em' }}>{text}</p>
@@ -47,6 +72,20 @@ const H2 = ({ children }: { children: React.ReactNode }) => (
   <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 4vw, 2.4rem)', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: 28, color: 'var(--text)' }}>
     {children}
   </h2>
+)
+
+const H3 = ({ children }: { children: React.ReactNode }) => (
+  <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 12, color: 'var(--text)' }}>{children}</h3>
+)
+
+const ListLabel = ({ children }: { children: React.ReactNode }) => (
+  <h4 style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-dim)', marginBottom: 10, letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>{children}</h4>
+)
+
+const BulletList = ({ items }: { items: string[] }) => (
+  <ul style={{ paddingLeft: 20, display: 'flex', flexDirection: 'column' as const, gap: 8 }}>
+    {items.map((item, i) => <li key={i} style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.65 }}>{item}</li>)}
+  </ul>
 )
 
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -97,18 +136,18 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               <>
                 <Eyebrow text={section.eyebrow} />
                 <H2>{section.title}</H2>
-                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 40 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: section.card ? '2fr 1fr' : '1fr', gap: 40 }}>
                   <div>
                     {section.prose?.map((p, i) => <p key={i} style={{ fontSize: 16, color: 'var(--text-muted)', lineHeight: 1.75, marginBottom: 16 }}>{p}</p>)}
                   </div>
                   {section.card && (
                     <div style={{ background: '#f8f9fa', border: '1px solid var(--border)', borderRadius: 14, padding: 24 }}>
-                      <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14, color: 'var(--text)' }}>{section.card.title}</h3>
+                      <H3>{section.card.title}</H3>
                       {section.card.duration && <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 8 }}><strong>Duration:</strong> {section.card.duration}</p>}
                       {section.card.responsibility && <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 14 }}><strong>Responsibility:</strong> {section.card.responsibility}</p>}
                       {section.card.tools && (
                         <>
-                          <p style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-dim)', marginBottom: 8, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Tools</p>
+                          <ListLabel>Tools</ListLabel>
                           <ul style={{ display: 'flex', flexWrap: 'wrap', gap: 6, listStyle: 'none', padding: 0 }}>
                             {section.card.tools.map(t => <li key={t} style={{ padding: '4px 12px', background: '#fff', border: '1px solid var(--border)', borderRadius: 100, fontSize: 12, color: 'var(--text-muted)' }}>{t}</li>)}
                           </ul>
@@ -131,15 +170,13 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40 }}>
                   {section.objectives && (
                     <div>
-                      <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 16, color: 'var(--text)', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'var(--font-mono)' }}>Objectives</h3>
-                      <ul style={{ paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
-                        {section.objectives.map((o, i) => <li key={i} style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.65 }}>{o}</li>)}
-                      </ul>
+                      <ListLabel>Objectives</ListLabel>
+                      <BulletList items={section.objectives} />
                     </div>
                   )}
                   {section.goals && (
                     <div>
-                      <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 16, color: 'var(--text)', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'var(--font-mono)' }}>Goals</h3>
+                      <ListLabel>Goals</ListLabel>
                       <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: 20 }}>
                         {section.goals.map((g, i) => (
                           <li key={i} style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
@@ -176,6 +213,189 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             )
           }
 
+          // ── Research ───────────────────────────────────────────────────────
+          if (section.type === 'research') {
+            return wrap(
+              <>
+                <Eyebrow text={section.eyebrow} />
+                <H2>{section.title}</H2>
+                {section.lead && <p style={{ fontSize: 17, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 12 }}>{section.lead}</p>}
+                {section.lead2 && <p style={{ fontSize: 15, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 36 }}>{section.lead2}</p>}
+                {section.groups && (
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+                    {section.groups.map((g, gi) => (
+                      <div key={gi} style={{ background: '#f8f9fa', border: '1px solid var(--border)', borderRadius: 14, padding: 24 }}>
+                        <ListLabel>{g.title}</ListLabel>
+                        <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
+                          {g.items.map((item, ii) => (
+                            <li key={ii} style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+                              <span style={{ fontFamily: 'var(--font-display)', fontSize: 28, fontWeight: 800, color: 'var(--accent)', lineHeight: 1, flexShrink: 0 }}>{item.value}</span>
+                              <span style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.4 }}>{item.label}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>, true, idx
+            )
+          }
+
+          // ── IA / Chips section ─────────────────────────────────────────────
+          if (section.type === 'ia') {
+            return wrap(
+              <>
+                <Eyebrow text={section.eyebrow} />
+                <H2>{section.title}</H2>
+                {section.lead && <p style={{ fontSize: 17, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 24 }}>{section.lead}</p>}
+                {section.chips && (
+                  <ul style={{ display: 'flex', flexWrap: 'wrap', gap: 8, listStyle: 'none', padding: 0, marginBottom: 32 }}>
+                    {section.chips.map((c, i) => (
+                      <li key={i} style={{ padding: '6px 14px', background: 'var(--accent-bg)', color: 'var(--accent)', borderRadius: 100, fontSize: 13, fontWeight: 500 }}>{c}</li>
+                    ))}
+                  </ul>
+                )}
+                {section.title && section.bullets && (
+                  <div style={{ background: '#f8f9fa', border: '1px solid var(--border)', borderRadius: 14, padding: 24 }}>
+                    <H3>Marketplace user flow</H3>
+                    <BulletList items={section.bullets} />
+                  </div>
+                )}
+              </>, false, idx
+            )
+          }
+
+          // ── Design System ──────────────────────────────────────────────────
+          if (section.type === 'design_system') {
+            return wrap(
+              <>
+                <Eyebrow text={section.eyebrow} />
+                <H2>{section.title}</H2>
+                {section.lead && <p style={{ fontSize: 17, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 32 }}>{section.lead}</p>}
+                {section.swatches && (
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+                    {section.swatches.map((sw, i) => (
+                      <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+                        <div style={{ width: 60, height: 60, borderRadius: 12, background: sw.color, border: '1px solid var(--border)', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }} />
+                        <span style={{ fontSize: 11, color: 'var(--text-muted)', textAlign: 'center', lineHeight: 1.3, fontFamily: 'var(--font-mono)', whiteSpace: 'pre-line' }}>{sw.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>, true, idx
+            )
+          }
+
+          // ── Competitive analysis ───────────────────────────────────────────
+          if (section.type === 'competitive') {
+            return wrap(
+              <>
+                <Eyebrow text={section.eyebrow} />
+                <H2>{section.title}</H2>
+                {section.lead && <p style={{ fontSize: 17, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 32 }}>{section.lead}</p>}
+                {section.features && section.competitors && section.matrix && (
+                  <div style={{ overflowX: 'auto', marginBottom: 40 }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+                      <thead>
+                        <tr>
+                          <th style={{ textAlign: 'left', padding: '10px 16px', background: '#f8f9fa', border: '1px solid var(--border)', fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--text-dim)' }}>Feature</th>
+                          {section.competitors.map((c, i) => (
+                            <th key={i} style={{ padding: '10px 12px', background: '#f8f9fa', border: '1px solid var(--border)', fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--text-dim)', textAlign: 'center', whiteSpace: 'nowrap' }}>{c}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {section.features.map((feat, fi) => (
+                          <tr key={fi}>
+                            <td style={{ padding: '10px 16px', border: '1px solid var(--border)', color: 'var(--text)', fontWeight: 500, fontSize: 13 }}>{feat}</td>
+                            {(section.matrix![fi] ?? []).map((val, vi) => {
+                              const c = val === 'High' ? { bg: '#dcfce7', color: '#16a34a' } : val === 'Medium' ? { bg: '#fef9c3', color: '#a16207' } : { bg: '#fee2e2', color: '#dc2626' }
+                              return (
+                                <td key={vi} style={{ padding: '10px 12px', border: '1px solid var(--border)', textAlign: 'center' }}>
+                                  <span style={{ padding: '2px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600, background: c.bg, color: c.color }}>{val}</span>
+                                </td>
+                              )
+                            })}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+                {section.cards && (
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+                    {section.cards.map((card, ci) => (
+                      <div key={ci} style={{ background: '#f8f9fa', border: '1px solid var(--border)', borderRadius: 14, padding: 20 }}>
+                        <H3>{card.title}</H3>
+                        {card.strengths && <><ListLabel>Strengths</ListLabel><BulletList items={card.strengths} /></>}
+                        {card.weaknesses && <div style={{ marginTop: 16 }}><ListLabel>Weaknesses</ListLabel><BulletList items={card.weaknesses} /></div>}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>, false, idx
+            )
+          }
+
+          // ── Personas ───────────────────────────────────────────────────────
+          if (section.type === 'personas') {
+            return wrap(
+              <>
+                <Eyebrow text={section.eyebrow} />
+                <H2>{section.title}</H2>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+                  {section.personas?.map((p, pi) => (
+                    <div key={pi} style={{ background: '#f8f9fa', border: '1px solid var(--border)', borderRadius: 16, padding: 28 }}>
+                      <p style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-dim)', marginBottom: 6, letterSpacing: '0.08em' }}>{p.n}</p>
+                      <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 24, fontWeight: 800, color: 'var(--text)', marginBottom: 4 }}>{p.name}</h3>
+                      <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 16, fontStyle: 'italic' }}>{p.meta}</p>
+                      <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 24 }}>{p.bio}</p>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 20 }}>
+                        {p.sections.map((s, si) => (
+                          <div key={si}>
+                            <ListLabel>{s.title}</ListLabel>
+                            <BulletList items={s.items} />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>, true, idx
+            )
+          }
+
+          // ── Empathy maps ───────────────────────────────────────────────────
+          if (section.type === 'empathy_maps') {
+            return wrap(
+              <>
+                <Eyebrow text={section.eyebrow} />
+                <H2>{section.title}</H2>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
+                  {section.maps?.map((m, mi) => (
+                    <div key={mi} style={{ background: '#f8f9fa', border: '1px solid var(--border)', borderRadius: 16, padding: 28 }}>
+                      <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 800, color: 'var(--text)', marginBottom: 4 }}>{m.name}</h3>
+                      {m.lead && <p style={{ fontSize: 14, color: 'var(--text-muted)', marginBottom: 24 }}>{m.lead}</p>}
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20, marginBottom: 24 }}>
+                        {m.says && <div><ListLabel>Says</ListLabel><BulletList items={m.says} /></div>}
+                        {m.thinks && <div><ListLabel>Thinks</ListLabel><BulletList items={m.thinks} /></div>}
+                        {m.feels && <div><ListLabel>Feels</ListLabel><BulletList items={m.feels} /></div>}
+                        {m.does && <div><ListLabel>Does</ListLabel><BulletList items={m.does} /></div>}
+                      </div>
+                      {(m.pain_points || m.opportunities) && (
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, borderTop: '1px solid var(--border)', paddingTop: 20 }}>
+                          {m.pain_points && <div><ListLabel>Key pain points</ListLabel><BulletList items={m.pain_points} /></div>}
+                          {m.opportunities && <div><ListLabel>Key opportunities</ListLabel><BulletList items={m.opportunities} /></div>}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </>, false, idx
+            )
+          }
+
           // ── Outcomes ───────────────────────────────────────────────────────
           if (section.type === 'outcomes') {
             return wrap(
@@ -185,18 +405,14 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40 }}>
                   {section.takeaways && (
                     <div>
-                      <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 16, color: 'var(--text)', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'var(--font-mono)' }}>Key takeaways</h3>
-                      <ul style={{ paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
-                        {section.takeaways.map((t, i) => <li key={i} style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.65 }}>{t}</li>)}
-                      </ul>
+                      <ListLabel>Key takeaways</ListLabel>
+                      <BulletList items={section.takeaways} />
                     </div>
                   )}
                   {section.roadmap && (
                     <div>
-                      <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 16, color: 'var(--text)', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'var(--font-mono)' }}>Roadmap</h3>
-                      <ul style={{ paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
-                        {section.roadmap.map((r, i) => <li key={i} style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.65 }}>{r}</li>)}
-                      </ul>
+                      <ListLabel>Roadmap</ListLabel>
+                      <BulletList items={section.roadmap} />
                     </div>
                   )}
                 </div>
@@ -310,7 +526,6 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   )
 }
 
-// helper to key sections
 function wrap(children: React.ReactNode, alt: boolean, idx: number) {
   return (
     <section key={idx} style={{ background: alt ? 'rgb(248,249,250)' : '#fff', borderBottom: '1px solid var(--border)', padding: '80px 24px' }}>
