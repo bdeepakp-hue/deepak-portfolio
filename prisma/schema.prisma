@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id           Int    @id @default(autoincrement())
+  name         String
+  tagline      String
+  hero_eyebrow String
+  hero_title   String
+  hero_lede    String
+  bio          String @db.Text
+  email        String
+  phone        String
+  linkedin_url String
+  behance_url  String
+  resume_url   String @default("")
+}
+
+model HeroTag {
+  id    Int    @id @default(autoincrement())
+  label String
+  order Int    @default(0)
+}
+
+model Project {
+  id           Int        @id @default(autoincrement())
+  title        String
+  slug         String     @unique
+  description  String
+  thumb_url    String
+  category     String     @default("")
+  is_published Boolean    @default(true)
+  order        Int        @default(0)
+  caseStudy    CaseStudy?
+}
+
+model ProcessStep {
+  id           String @id @default(cuid())
+  phase        String
+  title        String
+  description  String @db.Text
+  output_label String
+  output_tag   String
+  order        Int    @default(0)
+}
+
+model Experience {
+  id         String   @id @default(cuid())
+  company    String
+  role       String
+  start_date String
+  end_date   String
+  location   String
+  intro      String   @db.Text @default("")
+  bullets    Json
+  order      Int      @default(0)
+}
+
+model Certification {
+  id         String @id @default(cuid())
+  title      String
+  issuer     String
+  start_date String
+  end_date   String
+  order      Int    @default(0)
+}
+
+model Education {
+  id          String @id @default(cuid())
+  degree      String
+  institution String
+  start_date  String
+  end_date    String
+  order       Int    @default(0)
+}
+
+model ToolGroup {
+  id    Int    @id @default(autoincrement())
+  name  String
+  order Int    @default(0)
+  tools Tool[]
+}
+
+model Tool {
+  id       Int       @id @default(autoincrement())
+  name     String
+  order    Int       @default(0)
+  group    ToolGroup @relation(fields: [group_id], references: [id], onDelete: Cascade)
+  group_id Int
+}
+
+model CaseStudy {
+  id         Int     @id @default(autoincrement())
+  project    Project @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  project_id Int     @unique
+  sections   Json
+}
+
+model AdminUser {
+  id            String @id @default(cuid())
+  email         String @unique
+  password_hash String
+}
