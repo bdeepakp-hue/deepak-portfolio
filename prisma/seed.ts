@@ -312,7 +312,7 @@ async function main() {
           {
             type: 'image_full',
             url: '/travelnext/visual-designs.jpg',
-            alt: 'TravelNext mobile screens',
+            alt: 'TravelNext Visual Designs — 80+ screens',
           },
           {
             type: 'overview',
@@ -326,9 +326,17 @@ async function main() {
             card: { title: 'Project details', tools: ['Figma', 'FigJam', 'Confluence', 'JIRA'] },
           },
           {
+            type: 'image_two_col',
+            images: [
+              { url: '/travelnext/legacy-1.jpg', alt: 'Legacy TravelApp web screens', caption: 'Legacy web platform' },
+              { url: '/travelnext/legacy-2.jpg', alt: 'Legacy TravelApp screens', caption: 'Old trip flow' },
+            ],
+          },
+          {
             type: 'problem',
             eyebrow: '02 / Problem',
             title: 'Problem statement & goals',
+            lead: 'The existing travel app was difficult to use, had no mobile version and required users to depend on travel agents to create even simple trips.',
             objectives: [
               'Enhance user experience & usability for the existing Travel web app.',
               'Migrate it as a supplementary product of Glow on the Glow platform.',
@@ -343,11 +351,10 @@ async function main() {
             ],
           },
           {
-            type: 'image_two_col',
-            images: [
-              { url: '/travelnext/legacy-1.jpg', alt: 'Legacy trip screen' },
-              { url: '/travelnext/legacy-2.jpg', alt: 'Legacy trip screens' },
-            ],
+            type: 'image_full',
+            url: '/travelnext/submit-trip.jpg',
+            alt: 'Submit Trip in System? Oh no! — user frustration with legacy system',
+            caption: '"Submit Trip in System? Oh no!" — users dreaded the old trip creation flow',
           },
           {
             type: 'personas',
@@ -391,7 +398,7 @@ async function main() {
           },
           {
             type: 'process',
-            eyebrow: '05 / Process',
+            eyebrow: '04 / Design process',
             title: 'Design process',
             steps: [
               { n: '01', title: 'Research', desc: 'Involved speaking to the stakeholders, interviewing a few travellers in the organisation, and understanding the users\' pain points, desires and motivation.' },
@@ -403,34 +410,91 @@ async function main() {
           },
           {
             type: 'image_full',
-            eyebrow: '07 / Planning',
+            url: '/travelnext/story-map.jpg',
+            alt: 'User story map — task flows, user roles and use cases',
+            caption: 'User story map: defining all tasks by role across the platform',
+          },
+          {
+            type: 'image_full',
             url: '/travelnext/roadmap.jpg',
-            alt: 'TravelNext product roadmap',
-            caption: 'Product roadmap',
+            alt: 'TravelNext Product Roadmap — web v1.0 and mobile v5.0',
+            caption: '05 / Planning — TravelNext product roadmap across 8 macro sprints',
           },
           {
             type: 'image_two_col',
             images: [
-              { url: '/travelnext/wireframes-1.jpg', alt: 'Wireframes', caption: 'Wireframes — Approach 1' },
-              { url: '/travelnext/wireframes-2.jpg', alt: 'Wireframes', caption: 'Wireframes — Approach 2' },
+              { url: '/travelnext/wireframes-1.jpg', alt: 'Wireframes — Approach 1', caption: 'Wireframes — Approach 1' },
+              { url: '/travelnext/wireframes-2.jpg', alt: 'Wireframes — Approach 2', caption: 'Wireframes — Approach 2' },
             ],
           },
           {
             type: 'image_full',
+            url: '/travelnext/dashboard.jpg',
+            alt: 'TravelNext Glow portal — My Trips dashboard',
+            caption: '06 / Design — Glow portal web dashboard: "My Trips" with trip list and status filters',
+          },
+          {
+            type: 'image_two_col',
+            images: [
+              { url: '/travelnext/create-trip.jpg', alt: 'Create Trip — mobile stepper flow', caption: 'Create Trip: 4-step mobile stepper (Create → Cost → Passenger → Itinerary)' },
+              { url: '/travelnext/cost.jpg', alt: 'Cost allocation — web and mobile', caption: 'Cost allocation: project-based billing across web and mobile' },
+            ],
+          },
+          {
+            type: 'image_two_col',
+            images: [
+              { url: '/travelnext/flights-1.jpg', alt: 'Flight search results — mobile', caption: 'Flight search results with CO₂ emissions and recommended tags' },
+              { url: '/travelnext/flights-2.jpg', alt: 'Flight filters and selection — mobile', caption: 'Flight filters (price, stops, CO₂, departure time) and selected flights summary' },
+            ],
+          },
+          {
+            type: 'image_two_col',
+            images: [
+              { url: '/travelnext/hotels.jpg', alt: 'Hotel search — mobile', caption: 'Hotel search: by name, location or let Globers Travel find one' },
+              { url: '/travelnext/services.jpg', alt: 'Services — shuttle, car rental, bus, train, ferry', caption: 'Services selection: shuttle, car rental, bus, train, ferry, insurance' },
+            ],
+          },
+          {
+            type: 'image_full',
+            url: '/travelnext/trip-list.jpg',
+            alt: 'Mobile trip list and itinerary',
+            caption: 'Mobile: trip list (Ongoing / Upcoming / Older) and day-by-day itinerary view',
+          },
+          {
+            type: 'image_two_col',
+            images: [
+              { url: '/travelnext/comments.jpg', alt: 'Mobile comments and itinerary detail', caption: 'Comments thread and itinerary detail per trip' },
+              { url: '/travelnext/submit-trip.jpg', alt: 'Web trip overview and cost allocation', caption: 'Web: trip overview (tab strip) and cost allocation with billability' },
+            ],
+          },
+          {
+            type: 'image_full',
+            url: '/travelnext/sessions.jpg',
+            alt: 'Usability testing sessions with real users',
+            caption: '07 / Research & usability testing — remote sessions with Globers across offices',
+          },
+          {
+            type: 'image_full',
+            url: '/travelnext/affinity.jpg',
+            alt: 'Usability testing synthesis — Obstacles, Value, Feedback, Recommendations',
+            caption: 'Affinity mapping: obstacles, value, feedback and recommendations from 10 usability sessions',
+          },
+          {
+            type: 'image_full',
             url: '/travelnext/visual-designs.jpg',
-            alt: 'Visual designs of the TravelNext mobile screens',
-            caption: '09 / Visual — 80+ screens designed for web and mobile',
+            alt: 'TravelNext Visual Designs — 80+ screens for web and mobile',
+            caption: '08 / Visual designs — 80+ screens designed to make the user journey as friendly as possible',
           },
           {
             type: 'outcomes',
-            eyebrow: '10 / Challenges',
-            title: 'Challenges',
+            eyebrow: '09 / Challenges',
+            title: 'Challenges & next steps',
             takeaways: [
-              'No requirement document in place',
-              'Two different platforms to merge',
+              'No requirement document in place — requirements had to be discovered through stakeholder interviews',
+              'Two different platforms to merge (legacy web app + new Glow portal)',
               'Same users, different purposes: lots of different scenarios and a big volume of information',
               'Different UI but the same issues: old, no information architecture planned, lots of functionality but not user friendly',
-              '4 Product Owners were changed',
+              '4 Product Owners were changed during the project',
             ],
             roadmap: [
               'Make a simpler create-trip flow for Globers by excluding a few steps from the existing design',
