@@ -1,7 +1,7 @@
 export const instant = false
 import { prisma } from '@/lib/db'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
+import { FolderOpen, Settings2, Briefcase, User, BookOpen, FileText, ArrowRight } from 'lucide-react'
 
 export default async function AdminDashboard() {
   const [projectCount, processCount, expCount] = await Promise.all([
@@ -11,51 +11,104 @@ export default async function AdminDashboard() {
   ])
 
   const stats = [
-    { label: 'Projects', value: projectCount, href: '/admin/projects', color: '#3b82f6' },
-    { label: 'Process Steps', value: processCount, href: '/admin/process', color: '#10b981' },
-    { label: 'Experience Entries', value: expCount, href: '/admin/resume', color: '#f59e0b' },
+    { label: 'Projects', value: projectCount, href: '/admin/projects', icon: FolderOpen, color: '#4f46e5', bg: '#eef2ff' },
+    { label: 'Process Steps', value: processCount, href: '/admin/process', icon: Settings2, color: '#059669', bg: '#ecfdf5' },
+    { label: 'Experience', value: expCount, href: '/admin/resume', icon: Briefcase, color: '#d97706', bg: '#fffbeb' },
   ]
 
-  const quickLinks = [
-    { href: '/admin/profile', label: 'Edit Profile & Hero' },
-    { href: '/admin/projects', label: 'Manage Projects' },
-    { href: '/admin/case-studies', label: 'Edit Case Studies' },
-    { href: '/admin/process', label: 'Update Process Steps' },
-    { href: '/admin/resume', label: 'Update Resume' },
+  const quickActions = [
+    { href: '/admin/profile', label: 'Edit Profile & Hero', desc: 'Update bio, tagline, contact info', icon: User, color: '#4f46e5' },
+    { href: '/admin/projects', label: 'Manage Projects', desc: 'Add or edit portfolio projects', icon: FolderOpen, color: '#7c3aed' },
+    { href: '/admin/case-studies', label: 'Case Studies', desc: 'Edit detailed case study content', icon: BookOpen, color: '#0891b2' },
+    { href: '/admin/process', label: 'Process Steps', desc: 'Update your design process', icon: Settings2, color: '#059669' },
+    { href: '/admin/resume', label: 'Resume', desc: 'Experience, education, certifications', icon: FileText, color: '#d97706' },
   ]
+
+  const now = new Date()
+  const greeting = now.getHours() < 12 ? 'Good morning' : now.getHours() < 17 ? 'Good afternoon' : 'Good evening'
+  const dateStr = now.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
 
   return (
-    <div>
-      <h1 style={{ fontSize: 28, fontWeight: 700, marginBottom: 8, color: '#111' }}>Dashboard</h1>
-      <p style={{ color: '#6b7280', marginBottom: 32 }}>Manage your portfolio content</p>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 40 }}>
-        {stats.map(stat => (
-          <Link key={stat.href} href={stat.href} style={{ textDecoration: 'none' }}>
-            <Card style={{ cursor: 'pointer', borderTop: `3px solid ${stat.color}` }}>
-              <CardHeader style={{ paddingBottom: 8 }}>
-                <CardTitle style={{ fontSize: 13, color: '#6b7280', fontWeight: 500 }}>{stat.label}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <span style={{ fontSize: 36, fontWeight: 700, color: '#111' }}>{stat.value}</span>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
+    <div style={{ maxWidth: 900 }}>
+      {/* Header */}
+      <div style={{ marginBottom: 32 }}>
+        <h2 style={{ fontSize: 24, fontWeight: 700, color: '#0f172a', margin: '0 0 4px', fontFamily: 'var(--font-display)' }}>
+          {greeting}, Deepak 👋
+        </h2>
+        <p style={{ fontSize: 13, color: '#94a3b8', margin: 0 }}>{dateStr}</p>
       </div>
 
-      <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 16, color: '#111' }}>Quick Actions</h2>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 400 }}>
-        {quickLinks.map(link => (
-          <Link key={link.href} href={link.href} style={{
-            display: 'block', padding: '12px 16px',
-            background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8,
-            color: '#374151', textDecoration: 'none', fontSize: 14, fontWeight: 500,
-            transition: 'border-color 0.15s',
-          }}>
-            {link.label} →
-          </Link>
-        ))}
+      {/* Stats */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 40 }}>
+        {stats.map(stat => {
+          const Icon = stat.icon
+          return (
+            <Link key={stat.href} href={stat.href} style={{ textDecoration: 'none' }}>
+              <div style={{
+                background: '#fff', border: '1px solid #e2e8f0', borderRadius: 14,
+                padding: '20px 22px',
+                transition: 'box-shadow 0.15s, transform 0.15s',
+                cursor: 'pointer',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.08)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
+                onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)' }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: 10, background: stat.bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Icon size={18} color={stat.color} />
+                  </div>
+                  <ArrowRight size={14} color="#cbd5e1" />
+                </div>
+                <div style={{ fontSize: 36, fontWeight: 800, color: '#0f172a', lineHeight: 1, marginBottom: 4, fontFamily: 'var(--font-display)' }}>
+                  {stat.value}
+                </div>
+                <div style={{ fontSize: 13, color: '#64748b', fontWeight: 500 }}>{stat.label}</div>
+              </div>
+            </Link>
+          )
+        })}
+      </div>
+
+      {/* Quick Actions */}
+      <div style={{ marginBottom: 12 }}>
+        <h3 style={{ fontSize: 14, fontWeight: 600, color: '#64748b', margin: '0 0 14px', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+          Quick Actions
+        </h3>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+          {quickActions.map(action => {
+            const Icon = action.icon
+            return (
+              <Link key={action.href} href={action.href} style={{ textDecoration: 'none' }}>
+                <div style={{
+                  background: '#fff', border: '1px solid #e2e8f0', borderRadius: 12,
+                  padding: '16px 18px',
+                  display: 'flex', alignItems: 'center', gap: 14,
+                  transition: 'box-shadow 0.15s, border-color 0.15s',
+                  cursor: 'pointer',
+                }}
+                  onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.07)'; e.currentTarget.style.borderColor = '#c7d2fe' }}
+                  onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = '#e2e8f0' }}
+                >
+                  <div style={{ width: 36, height: 36, borderRadius: 9, background: `${action.color}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <Icon size={16} color={action.color} />
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ fontSize: 13, fontWeight: 600, color: '#0f172a', margin: '0 0 2px' }}>{action.label}</p>
+                    <p style={{ fontSize: 12, color: '#94a3b8', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{action.desc}</p>
+                  </div>
+                  <ArrowRight size={14} color="#cbd5e1" style={{ flexShrink: 0 }} />
+                </div>
+              </Link>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Footer note */}
+      <div style={{ marginTop: 32, padding: '14px 18px', background: '#f8fafc', borderRadius: 10, border: '1px solid #e2e8f0' }}>
+        <p style={{ fontSize: 12, color: '#94a3b8', margin: 0 }}>
+          Changes are reflected on the live site immediately after saving. <Link href="/" target="_blank" style={{ color: '#4f46e5', textDecoration: 'none', fontWeight: 500 }}>View live site →</Link>
+        </p>
       </div>
     </div>
   )
