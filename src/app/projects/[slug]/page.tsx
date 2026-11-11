@@ -107,23 +107,34 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
           // ── Hero ───────────────────────────────────────────────────────────
           if (section.type === 'hero') {
+            const heroImg = section.url || project.thumb_url
             return (
-              <header key={idx} style={{ background: '#f8f9fa', borderBottom: '1px solid var(--border)', padding: '80px 24px 60px' }}>
-                <div style={{ maxWidth: 900, margin: '0 auto' }}>
-                  <Eyebrow text={section.eyebrow} />
-                  <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: 20, color: 'var(--text)' }}>
-                    {section.title}
-                  </h1>
-                  <p style={{ fontSize: 18, color: 'var(--text-muted)', lineHeight: 1.7, maxWidth: 680, marginBottom: 36 }}>{section.lede}</p>
-                  {section.meta && (
-                    <ul style={{ display: 'flex', flexWrap: 'wrap', gap: 32, listStyle: 'none', padding: 0 }}>
-                      {section.meta.map((m, i) => (
-                        <li key={i}>
-                          <span style={{ display: 'block', fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-dim)', marginBottom: 4, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{m.label}</span>
-                          <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--text)' }}>{m.value}</span>
-                        </li>
-                      ))}
-                    </ul>
+              <header key={idx} style={{ background: 'var(--bg2)', borderBottom: '1px solid var(--border)', padding: '72px 24px 64px' }}>
+                <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: heroImg ? '1fr 1fr' : '1fr', gap: 56, alignItems: 'center' }}>
+                  {/* left: text */}
+                  <div>
+                    <Eyebrow text={section.eyebrow} />
+                    <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.2rem, 5vw, 3.8rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: 20, color: 'var(--text)', lineHeight: 1.1 }}>
+                      {section.title}
+                    </h1>
+                    <p style={{ fontSize: 17, color: 'var(--text-muted)', lineHeight: 1.75, marginBottom: 36 }}>{section.lede}</p>
+                    {section.meta && (
+                      <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 10 }}>
+                        {section.meta.map((m, i) => (
+                          <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 16px', border: '1px solid var(--border)', borderRadius: 100, background: 'var(--card-bg)', fontSize: 13 }}>
+                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--text-dim)', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>{m.label}</span>
+                            <span style={{ fontWeight: 700, color: 'var(--text)' }}>{m.value}</span>
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  {/* right: image */}
+                  {heroImg && (
+                    <div style={{ borderRadius: 16, overflow: 'hidden', background: 'var(--bg3)', aspectRatio: '4/3', position: 'relative' as const }}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={heroImg} alt={section.title ?? ''} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                    </div>
                   )}
                 </div>
               </header>

@@ -72,6 +72,7 @@ async function main() {
             title: 'Gamifying the Contact Center',
             lede: 'A gamified engagement system that lets supervisors assign targeted games, challenges and rewards to agents — reducing burnout and lifting performance.',
             meta: [{ label: 'Duration', value: '6 weeks' }, { label: 'Role', value: 'UX Designer & Researcher' }, { label: 'Team', value: '3 designers' }],
+            url: '/images/gamifying-thumb.webp',
           },
           {
             type: 'overview',
@@ -308,11 +309,7 @@ async function main() {
             title: 'TravelNext',
             lede: 'Designing a vision for the future Globant travel management solution.',
             meta: [{ label: 'Platform', value: 'Web & mobile' }, { label: 'Part of', value: 'Glow portal' }, { label: 'Scope', value: '80+ screens' }],
-          },
-          {
-            type: 'image_full',
             url: '/travelnext/visual-designs.jpg',
-            alt: 'TravelNext Visual Designs — 80+ screens',
           },
           {
             type: 'overview',
@@ -521,6 +518,7 @@ async function main() {
             title: 'Data Protection',
             lede: 'Guarantee data protection through seamless integrations of backup-restore, disaster recovery, high availability and archiving solutions.',
             meta: [{ label: 'Role', value: 'UI / Visual Design' }, { label: 'Platform', value: 'Web' }, { label: 'Type', value: 'Design strategy' }],
+            url: '/dataprotection/visual-1.jpg',
           },
           {
             type: 'overview',
@@ -591,6 +589,7 @@ async function main() {
             title: 'ShareInsights',
             lede: 'End-to-end cohesive tool for all your data analytics needs.',
             meta: [{ label: 'Role', value: 'UI / UX Designer' }, { label: 'Platform', value: 'Web' }, { label: 'Process', value: 'Waterfall' }],
+            url: '/shareinsights/dashboard-1.jpg',
           },
           {
             type: 'overview',
@@ -716,6 +715,7 @@ async function main() {
             title: 'MyQuiz',
             lede: 'Native quiz app for fun & learn.',
             meta: [{ label: 'Platform', value: 'iOS & Android' }, { label: 'Use', value: 'Quizzes, surveys & polls' }, { label: 'Focus', value: 'Gamification' }],
+            url: '/myquiz/hero.jpg',
           },
           {
             type: 'overview',
