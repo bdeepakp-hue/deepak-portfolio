@@ -3,6 +3,14 @@ import { prisma } from '@/lib/db'
 import Link from 'next/link'
 import { FolderOpen, Settings2, Briefcase, User, BookOpen, FileText, ArrowRight } from 'lucide-react'
 
+// Inline styles via className — hover effects done in CSS to avoid event handlers in Server Components
+const hoverStyles = `
+  .dash-stat-card { transition: box-shadow 0.15s, transform 0.15s; }
+  .dash-stat-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-1px); }
+  .dash-action-card { transition: box-shadow 0.15s, border-color 0.15s; }
+  .dash-action-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.07); border-color: #c7d2fe !important; }
+`
+
 export default async function AdminDashboard() {
   const [projectCount, processCount, expCount] = await Promise.all([
     prisma.project.count(),
@@ -30,6 +38,7 @@ export default async function AdminDashboard() {
 
   return (
     <div style={{ maxWidth: 900 }}>
+      <style dangerouslySetInnerHTML={{ __html: hoverStyles }} />
       {/* Header */}
       <div style={{ marginBottom: 32 }}>
         <h2 style={{ fontSize: 24, fontWeight: 700, color: '#0f172a', margin: '0 0 4px', fontFamily: 'var(--font-display)' }}>
@@ -44,15 +53,11 @@ export default async function AdminDashboard() {
           const Icon = stat.icon
           return (
             <Link key={stat.href} href={stat.href} style={{ textDecoration: 'none' }}>
-              <div style={{
+              <div className="dash-stat-card" style={{
                 background: '#fff', border: '1px solid #e2e8f0', borderRadius: 14,
                 padding: '20px 22px',
-                transition: 'box-shadow 0.15s, transform 0.15s',
                 cursor: 'pointer',
-              }}
-                onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.08)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
-                onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)' }}
-              >
+              }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
                   <div style={{ width: 40, height: 40, borderRadius: 10, background: stat.bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Icon size={18} color={stat.color} />
@@ -79,16 +84,12 @@ export default async function AdminDashboard() {
             const Icon = action.icon
             return (
               <Link key={action.href} href={action.href} style={{ textDecoration: 'none' }}>
-                <div style={{
+                <div className="dash-action-card" style={{
                   background: '#fff', border: '1px solid #e2e8f0', borderRadius: 12,
                   padding: '16px 18px',
                   display: 'flex', alignItems: 'center', gap: 14,
-                  transition: 'box-shadow 0.15s, border-color 0.15s',
                   cursor: 'pointer',
-                }}
-                  onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.07)'; e.currentTarget.style.borderColor = '#c7d2fe' }}
-                  onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = '#e2e8f0' }}
-                >
+                }}>
                   <div style={{ width: 36, height: 36, borderRadius: 9, background: `${action.color}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <Icon size={16} color={action.color} />
                   </div>
